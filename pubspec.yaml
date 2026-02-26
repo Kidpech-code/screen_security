@@ -1,0 +1,34 @@
+name: screen_security
+description: "A zero-dependency Flutter plugin to prevent screen capturing and recording on iOS and Android."
+version: 1.0.0
+homepage: https://github.com/Kidpech-code/screen_security
+repository: https://github.com/Kidpech-code/screen_security
+issue_tracker: https://github.com/Kidpech-code/screen_security/issues
+topics:
+  - screen-security
+  - screenshot-prevention
+  - screen-capture
+  - security
+
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+  flutter: ">=3.3.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: dev.kidpech.screen_security
+        pluginClass: KidpechScreenSecurityPlugin
+      ios:
+        pluginClass: KidpechScreenSecurityPlugin
