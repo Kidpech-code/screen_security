@@ -5,30 +5,149 @@ import 'package:screen_security/screen_security_method_channel.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  MethodChannelScreenSecurity platform = MethodChannelScreenSecurity();
-  const MethodChannel channel = MethodChannel('kidpech_screen_security');
+  late MethodChannelScreenSecurity platform;
+  const channel = MethodChannel('kidpech_screen_security');
 
-  final List<String> calledMethods = [];
+  // Full call log so tests can assert method names, order, and arguments.
+  final List<MethodCall> log = [];
 
   setUp(() {
-    calledMethods.clear();
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (MethodCall methodCall) async {
-      calledMethods.add(methodCall.method);
+    log.clear();
+    platform = MethodChannelScreenSecurity();
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (MethodCall call) async {
+      log.add(call);
       return null;
     });
   });
 
   tearDown(() {
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, null);
   });
 
-  test('enableScreenSecurity sends correct method call', () async {
-    await platform.enableScreenSecurity();
-    expect(calledMethods, ['enableScreenSecurity']);
+  // ──────────────────────────────────────────────────────────────
+  // Channel configuration
+  // ──────────────────────────────────────────────────────────────
+  group('channel configuration', () {
+    test('uses the correct channel name', () {
+      expect(platform.methodChannel.name, 'kidpech_screen_security');
+    });
   });
 
-  test('disableScreenSecurity sends correct method call', () async {
-    await platform.disableScreenSecurity();
-    expect(calledMethods, ['disableScreenSecurity']);
+  // ──────────────────────────────────────────────────────────────
+  // enableScreenSecurity
+  // ──────────────────────────────────────────────────────────────
+  group('enableScreenSecurity', () {
+    test('invokes enableScreenSecurity on the channel', () async {
+      await platform.enableScreenSecurity();
+
+      expect(log, hasLength(1));
+      expect(log.single.method, 'enableScreenSecurity');
+    });
+
+    test('sends no arguments to the channel', () async {
+      await platform.enableScreenSecurity();
+
+      expect(log.single.arguments, isNull);
+    });
+
+    test('completes without error when channel returns null', () async {
+      await expectLater(platform.enableScreenSecurity(), completes);
+    });
+
+    test('propagates PlatformException from the native side', () async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, (_) async {
+        throw PlatformException(
+          code: 'NO_ACTIVITY',
+          message: 'Activity is not available',
+        );
+      });
+
+      await expectLater(
+        platform.enableScreenSecurity(),
+        throwsA(
+          isA<PlatformException>().having((e) => e.code, 'code', 'NO_ACTIVITY'),
+        ),
+      );
+    });
+  });
+
+  // ──────────────────────────────────────────────────────────────
+  // disableScreenSecurity
+  // ──────────────────────────────────────────────────────────────
+  group('disableScreenSecurity', () {
+    test('invokes disableScreenSecurity on the channel', () async {
+      await platform.disableScreenSecurity();
+
+      expect(log, hasLength(1));
+      expect(log.single.method, 'disableScreenSecurity');
+    });
+
+    test('sends no arguments to the channel', () async {
+      await platform.disableScreenSecurity();
+
+      expect(log.single.arguments, isNull);
+    });
+
+    test('completes without error when channel returns null', () async {
+      await expectLater(platform.disableScreenSecurity(), completes);
+    });
+
+    test('propagates PlatformException from the native side', () async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, (_) async {
+        throw PlatformException(
+          code: 'NO_ACTIVITY',
+          message: 'Activity is not available',
+        );
+      });
+
+      await expectLater(
+        platform.disableScreenSecurity(),
+        throwsA(
+          isA<PlatformException>().having((e) => e.code, 'code', 'NO_ACTIVITY'),
+        ),
+      );
+    });
+  });
+
+  // ──────────────────────────────────────────────────────────────
+  // Sequential call ordering
+  // ──────────────────────────────────────────────────────────────
+  group('sequential calls', () {
+    test('enable then disable records both calls in order', () async {
+      await platform.enableScreenSecurity();
+      await platform.disableScreenSecurity();
+
+      expect(log, hasLength(2));
+      expect(log[0].method, 'enableScreenSecurity');
+      expect(log[1].method, 'disableScreenSecurity');
+    });
+
+    test('multiple enable calls each reach the channel', () async {
+      await platform.enableScreenSecurity();
+      await platform.enableScreenSecurity();
+      await platform.enableScreenSecurity();
+
+      expect(log, hasLength(3));
+      expect(
+        log.map((c) => c.method),
+        everyElement('enableScreenSecurity'),
+      );
+    });
+
+    test('disable → enable → disable records calls in correct order', () async {
+      await platform.disableScreenSecurity();
+      await platform.enableScreenSecurity();
+      await platform.disableScreenSecurity();
+
+      expect(log.map((c) => c.method), [
+        'disableScreenSecurity',
+        'enableScreenSecurity',
+        'disableScreenSecurity',
+      ]);
+    });
   });
 }

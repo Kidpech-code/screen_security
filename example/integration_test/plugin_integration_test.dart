@@ -1,24 +1,61 @@
-// This is a basic Flutter integration test.
+// Integration tests for the screen_security plugin.
 //
-// Since integration tests run in a full Flutter application, they can interact
-// with the host side of a plugin implementation, unlike Dart unit tests.
-//
-// For more information about Flutter integration tests, please see
-// https://flutter.dev/to/integration-testing
+// These tests run against the real native implementation on a device or
+// emulator and verify the full Dart → MethodChannel → native bridge.
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-
 import 'package:screen_security/screen_security.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('enable and disable screen security', (WidgetTester tester) async {
-    final ScreenSecurity plugin = ScreenSecurity();
+  late ScreenSecurity plugin;
 
-    // Should not throw
-    await plugin.enable();
-    await plugin.disable();
+  setUp(() {
+    plugin = ScreenSecurity();
+  });
+
+  group('enable()', () {
+    testWidgets('does not throw on the first call', (tester) async {
+      await expectLater(plugin.enable(), completes);
+    });
+
+    testWidgets('is idempotent: calling twice does not throw', (tester) async {
+      await plugin.enable();
+      await expectLater(plugin.enable(), completes);
+    });
+  });
+
+  group('disable()', () {
+    testWidgets('does not throw on the first call', (tester) async {
+      await expectLater(plugin.disable(), completes);
+    });
+
+    testWidgets('is idempotent: calling twice does not throw', (tester) async {
+      await plugin.disable();
+      await expectLater(plugin.disable(), completes);
+    });
+  });
+
+  group('enable ↔ disable cycle', () {
+    testWidgets('enable then disable completes successfully', (tester) async {
+      await plugin.enable();
+      await expectLater(plugin.disable(), completes);
+    });
+
+    testWidgets('disable then enable completes successfully', (tester) async {
+      await plugin.disable();
+      await expectLater(plugin.enable(), completes);
+    });
+
+    testWidgets('three full enable/disable cycles all complete successfully', (
+      tester,
+    ) async {
+      for (var i = 0; i < 3; i++) {
+        await expectLater(plugin.enable(), completes);
+        await expectLater(plugin.disable(), completes);
+      }
+    });
   });
 }

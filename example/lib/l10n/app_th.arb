@@ -1,0 +1,27 @@
+{
+  "@@locale": "th",
+
+  "appTitle": "ตัวอย่าง Screen Security",
+
+  "statusOff": "การป้องกันหน้าจอ: ปิดอยู่",
+
+  "statusOn": "การป้องกันหน้าจอ: เปิดอยู่",
+
+  "statusError": "ข้อผิดพลาด: {error}",
+
+  "enableSecurity": "เปิดการป้องกัน",
+
+  "disableSecurity": "ปิดการป้องกัน",
+
+  "keyboardTestTitle": "ทดสอบ Keyboard & SafeArea",
+
+  "typeHereLabel": "พิมพ์ที่นี่เพื่อทดสอบ keyboard insets",
+
+  "typeHereHint": "คีย์บอร์ดควรทำงานได้ตามปกติ...",
+
+  "anotherFieldLabel": "ช่องข้อความอีกอัน",
+
+  "anotherFieldHint": "ทดสอบการใส่ข้อมูลหลายช่อง...",
+
+  "screenshotHint": "ลองถ่ายภาพหน้าจอหรือบันทึกหน้าจอ\nขณะที่การป้องกันเปิดอยู่"
+}

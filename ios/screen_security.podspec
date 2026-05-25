@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'screen_security'
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = 'Prevent screen capturing and recording on iOS and Android.'
   s.description      = <<-DESC
 A zero-dependency Flutter plugin that prevents screen capturing and screen recording.

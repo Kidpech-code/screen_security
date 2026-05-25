@@ -1,0 +1,32 @@
+{
+  // ── Kotlin Language Server ──────────────────────────────────────────────
+  // The VS Code KLS cannot resolve Android SDK (android.*) or Flutter
+  // embedding (io.flutter.*) JARs — those only exist inside the Android
+  // Gradle build classpath, which KLS does not read for android-library
+  // modules.  Disabling KLS here removes the false-positive diagnostics on
+  // android/**/*.kt without affecting:
+  //   • Dart analysis (handled by the Dart Analysis Server, not KLS)
+  //   • The actual Gradle build / unit tests (run via ./gradlew test)
+  //
+  // To regain full IDE support for the Android Kotlin code, open the
+  // android/ directory separately in Android Studio.
+  "kotlin.languageServer.enabled": false,
+
+  // ── File associations ───────────────────────────────────────────────────
+  "files.associations": {
+    "*.dart": "dart"
+  },
+
+  // ── Search / watcher exclusions ─────────────────────────────────────────
+  // Keep build artefacts out of search results and file watchers so the KLS
+  // (if re-enabled) does not index compiled class files and trigger the
+  // "Redeclaration" false positive again.
+  "search.exclude": {
+    "**/build/**": true,
+    "**/.dart_tool/**": true
+  },
+  "files.watcherExclude": {
+    "**/build/**": true,
+    "**/.dart_tool/**": true
+  }
+}

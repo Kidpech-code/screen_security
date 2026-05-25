@@ -1,0 +1,69 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Screen Security Example",
+  "@appTitle": {
+    "description": "The title of the example application"
+  },
+
+  "statusOff": "Screen security is OFF",
+  "@statusOff": {
+    "description": "Status label shown when screen security is disabled"
+  },
+
+  "statusOn": "Screen security is ON",
+  "@statusOn": {
+    "description": "Status label shown when screen security is enabled"
+  },
+
+  "statusError": "Error: {error}",
+  "@statusError": {
+    "description": "Error status message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "PlatformException(error)"
+      }
+    }
+  },
+
+  "enableSecurity": "Enable Security",
+  "@enableSecurity": {
+    "description": "Button label to enable screen security"
+  },
+
+  "disableSecurity": "Disable Security",
+  "@disableSecurity": {
+    "description": "Button label to disable screen security"
+  },
+
+  "keyboardTestTitle": "Keyboard & SafeArea Test",
+  "@keyboardTestTitle": {
+    "description": "Section heading for the keyboard and safe area test"
+  },
+
+  "typeHereLabel": "Type here to test keyboard insets",
+  "@typeHereLabel": {
+    "description": "Label for the first text field"
+  },
+
+  "typeHereHint": "Keyboard should work normally...",
+  "@typeHereHint": {
+    "description": "Hint text for the first text field"
+  },
+
+  "anotherFieldLabel": "Another text field",
+  "@anotherFieldLabel": {
+    "description": "Label for the second text field"
+  },
+
+  "anotherFieldHint": "Test multiple inputs...",
+  "@anotherFieldHint": {
+    "description": "Hint text for the second text field"
+  },
+
+  "screenshotHint": "Try taking a screenshot or screen recording\nwhile security is enabled.",
+  "@screenshotHint": {
+    "description": "Footer hint encouraging the user to test screenshot prevention"
+  }
+}

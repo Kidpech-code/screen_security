@@ -25,11 +25,13 @@ abstract class ScreenSecurityPlatform extends PlatformInterface {
 
   /// Enables screen security to prevent screenshots and screen recording.
   Future<void> enableScreenSecurity() {
-    throw UnimplementedError('enableScreenSecurity() has not been implemented.');
+    throw UnimplementedError(
+        'enableScreenSecurity() has not been implemented.');
   }
 
   /// Disables screen security, allowing screenshots and screen recording.
   Future<void> disableScreenSecurity() {
-    throw UnimplementedError('disableScreenSecurity() has not been implemented.');
+    throw UnimplementedError(
+        'disableScreenSecurity() has not been implemented.');
   }
 }

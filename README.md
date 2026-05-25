@@ -21,7 +21,7 @@ Add the dependency:
 
 ```yaml
 dependencies:
-  screen_security: ^1.0.0
+  screen_security: ^1.1.0
 ```
 
 ## Usage
