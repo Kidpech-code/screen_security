@@ -50,7 +50,9 @@ class _HomePageState extends State<HomePage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.statusError(e.toString()))));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.statusError(e.toString()))));
       }
     }
   }
@@ -78,14 +80,21 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      Icon(_isEnabled ? Icons.lock : Icons.lock_open, size: 48, color: _isEnabled ? Colors.green : Colors.red),
+                      Icon(
+                        _isEnabled ? Icons.lock : Icons.lock_open,
+                        size: 48,
+                        color: _isEnabled ? Colors.green : Colors.red,
+                      ),
                       const SizedBox(height: 12),
                       Text(
                         _isEnabled ? l10n.statusOn : l10n.statusOff,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: _isEnabled ? Colors.green.shade800 : Colors.red.shade800,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: _isEnabled
+                                  ? Colors.green.shade800
+                                  : Colors.red.shade800,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                     ],
                   ),
@@ -95,28 +104,43 @@ class _HomePageState extends State<HomePage> {
               FilledButton.icon(
                 onPressed: _toggleSecurity,
                 icon: Icon(_isEnabled ? Icons.lock_open : Icons.lock),
-                label: Text(_isEnabled ? l10n.disableSecurity : l10n.enableSecurity),
+                label: Text(
+                  _isEnabled ? l10n.disableSecurity : l10n.enableSecurity,
+                ),
                 style: FilledButton.styleFrom(
                   backgroundColor: _isEnabled ? Colors.red : Colors.green,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
               const SizedBox(height: 32),
-              Text(l10n.keyboardTestTitle, style: Theme.of(context).textTheme.titleSmall),
+              Text(
+                l10n.keyboardTestTitle,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
               const SizedBox(height: 8),
               TextField(
                 controller: _textController,
-                decoration: InputDecoration(border: const OutlineInputBorder(), labelText: l10n.typeHereLabel, hintText: l10n.typeHereHint),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: l10n.typeHereLabel,
+                  hintText: l10n.typeHereHint,
+                ),
               ),
               const SizedBox(height: 16),
               TextField(
-                decoration: InputDecoration(border: const OutlineInputBorder(), labelText: l10n.anotherFieldLabel, hintText: l10n.anotherFieldHint),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: l10n.anotherFieldLabel,
+                  hintText: l10n.anotherFieldHint,
+                ),
               ),
               const Spacer(),
               Text(
                 l10n.screenshotHint,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.grey),
               ),
             ],
           ),
