@@ -4,9 +4,9 @@ import XCTest
 
 @testable import screen_security
 
-/// Unit tests for KidpechScreenSecurityPlugin that can run without a full UIKit
-/// environment. Only paths that do not require an active UIWindow are covered
-/// here; full enable/disable behavior is validated by the integration tests.
+/// Unit tests for method routing, window-resolution errors, and an enable/disable
+/// cycle against the test host's live UIWindow. Physical capture behavior remains
+/// covered by the release device checks.
 class RunnerTests: XCTestCase {
 
   // MARK: - Unknown method
@@ -28,6 +28,28 @@ class RunnerTests: XCTestCase {
       (receivedResult as? NSObject) === FlutterMethodNotImplemented,
       "Expected FlutterMethodNotImplemented for an unknown method, got \(String(describing: receivedResult))"
     )
+  }
+
+  // MARK: - enable without window
+
+  func testHandle_enableScreenSecurity_withoutWindow_returnsError() {
+    let plugin = KidpechScreenSecurityPlugin(windowProvider: { nil })
+
+    var receivedResult: Any?
+    let expectation = expectation(description: "enable result called")
+    plugin.handle(FlutterMethodCall(methodName: "enableScreenSecurity", arguments: nil)) {
+      result in
+      receivedResult = result
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: 1)
+
+    guard let error = receivedResult as? FlutterError else {
+      return XCTFail(
+        "Expected FlutterError when no window is available, got \(String(describing: receivedResult))"
+      )
+    }
+    XCTAssertEqual(error.code, "NO_WINDOW")
   }
 
   // MARK: - enable/disable against the live host window

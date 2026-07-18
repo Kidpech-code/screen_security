@@ -29,12 +29,8 @@ CLAUDE.md
 AGENTS.md
 .claude/
 
-# Internal/maintainer docs — local only
-# (README.md, CHANGELOG.md, LICENSE stay tracked: required by pub.dev)
-/doc/
-CONTRIBUTING.md
-RELEASING.md
-SECURITY.md
+# Local review snapshot; public policy and maintainer docs stay tracked.
+/doc/TECHNICAL_REVIEW.md
 
 # Flutter/Dart/Pub related
 # Libraries should not include pubspec.lock, per https://dart.dev/guides/libraries/private-files#pubspeclock.

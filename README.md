@@ -25,19 +25,28 @@ view structure, which Apple can change. Test every supported iOS release and dev
 class before shipping sensitive workflows. See [SECURITY.md](SECURITY.md) and the
 [engineering policy](doc/ENGINEERING_POLICY.md) for the project's assurance rules.
 
+macOS iPhone Mirroring is a known exception: during release validation, an iPhone 13
+Pro Max running iOS 26.5.2 continued to expose the protected Flutter surface. The
+system did not honor the secure text-field layer or report an active public scene
+capture state. Do not treat this package as a protection boundary for iPhone
+Mirroring; withhold or permanently redact highly sensitive content at the application
+layer. Managed deployments can also disable iPhone Mirroring through device policy.
+See Apple's
+[device-management restrictions](https://developer.apple.com/documentation/devicemanagement/restrictions).
+
 ## Features
 
 - Enables or disables protection at runtime with a small async API.
 - Uses Android's standard `FLAG_SECURE` window flag.
-- Avoids replacing the iOS application window, preserving camera, keyboard, and
-  safe-area behavior in the supported example configuration.
+- Avoids replacing the iOS application window and keeps the protected Flutter
+  surface inside the existing host window.
 - Includes Dart, method-channel, Android, iOS, widget, and device integration tests.
 
 ## Installation
 
 ```yaml
 dependencies:
-  screen_security: ^1.1.0
+  screen_security: ^1.1.1
 ```
 
 ## Usage

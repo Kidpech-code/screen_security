@@ -1,12 +1,16 @@
 ## Unreleased
 
+## 1.1.1 - 2026-07-18
+
 - Fixed iOS window resolution: a present app delegate with a nil `window` no
   longer short-circuits the scene-based window lookup, so `enable()` works in
-  scene-based and add-to-app hosts instead of failing with `NO_WINDOW`.
-- Replaced the iOS `NO_WINDOW` unit test (which asserted the pre-fix lookup
-  behavior) with a real enable/disable cycle against the test host window.
-- Aligned CocoaPods podspec summary/description with the best-effort security
-  claims policy.
+  scene-based hosts instead of failing with `NO_WINDOW`.
+- Added a real iOS enable/disable cycle against the test host window while
+  preserving regression coverage for the `NO_WINDOW` error contract.
+- Aligned README, API documentation, and CocoaPods metadata with the
+  best-effort security claims policy.
+- Documented that macOS iPhone Mirroring remained visible on the tested iOS
+  26.5.2 device and is not a supported protection boundary.
 - Integration tests now disable protection in `tearDown` per testing policy.
 - Added professional engineering, contribution, security, and release policies.
 - Added CI gates for Dart, Flutter, Android, iOS, and package validation.
@@ -26,7 +30,7 @@
 ## 1.0.0
 
 - Initial release.
-- Prevent screen capturing and recording on iOS and Android.
+- Added best-effort screenshot and screen-recording protection on iOS and Android.
 - Android: `FLAG_SECURE` via `ActivityAware` interface.
-- iOS: Secure `UITextField` layer injection — no camera-black-screen conflict.
+- iOS: Secure `UITextField` layer injection without replacing the application window.
 - Simple `enable()` / `disable()` Dart API.
