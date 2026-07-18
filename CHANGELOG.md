@@ -1,3 +1,12 @@
+## Unreleased
+
+- Added professional engineering, contribution, security, and release policies.
+- Added CI gates for Dart, Flutter, Android, iOS, and package validation.
+- Added trusted-publishing automation for version tags.
+- Clarified that screen-capture protection is defense in depth, not a security boundary.
+- Fixed the iOS native test target so it compiles against the plugin initializer.
+- Updated the example project metadata and native host scaffolding for Flutter 3.44.6.
+
 ## 1.1.0
 
 - Added internationalization (i18n) to the example app using `gen-l10n`.

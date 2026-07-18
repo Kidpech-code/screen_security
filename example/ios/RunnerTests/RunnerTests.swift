@@ -25,8 +25,7 @@ class RunnerTests: XCTestCase {
     waitForExpectations(timeout: 1)
 
     XCTAssertTrue(
-      receivedResult is FlutterMethodNotImplemented.Type
-        || (receivedResult as? NSObject) === FlutterMethodNotImplemented,
+      (receivedResult as? NSObject) === FlutterMethodNotImplemented,
       "Expected FlutterMethodNotImplemented for an unknown method, got \(String(describing: receivedResult))"
     )
   }
@@ -83,4 +82,3 @@ class RunnerTests: XCTestCase {
     )
   }
 }
-

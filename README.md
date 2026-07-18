@@ -1,23 +1,39 @@
 # screen_security
 
-A **zero-dependency** Flutter plugin to prevent screen capturing and screen recording on **iOS** and **Android**.
+[![CI](https://github.com/Kidpech-code/screen_security/actions/workflows/ci.yml/badge.svg)](https://github.com/Kidpech-code/screen_security/actions/workflows/ci.yml)
+[![pub package](https://img.shields.io/pub/v/screen_security.svg)](https://pub.dev/packages/screen_security)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+A lightweight Flutter plugin that adds best-effort screenshot and screen-recording
+protection on Android and iOS. It has no third-party native runtime dependencies.
 
 | Platform | Mechanism |
-|----------|-----------|
-| Android  | `WindowManager.LayoutParams.FLAG_SECURE` via `ActivityAware` |
-| iOS      | Injects `FlutterView` into a secure `UITextField` layer (`isSecureTextEntry`), avoiding the common camera-black-screen conflict |
+| --- | --- |
+| Android | `WindowManager.LayoutParams.FLAG_SECURE` through `ActivityAware` |
+| iOS | Hosts the Flutter view inside the protected rendering layer of a secure `UITextField` |
+
+## Security model
+
+This package is a defense-in-depth control, not a DRM, encryption, or data-loss
+prevention boundary. It can reduce exposure through normal operating-system capture
+flows, but it cannot prevent every form of copying, including an external camera,
+a compromised or modified device, accessibility abuse, or sensitive data leaving
+the protected Flutter surface.
+
+The iOS implementation relies on UIKit's secure text rendering behavior and internal
+view structure, which Apple can change. Test every supported iOS release and device
+class before shipping sensitive workflows. See [SECURITY.md](SECURITY.md) and the
+[engineering policy](doc/ENGINEERING_POLICY.md) for the project's assurance rules.
 
 ## Features
 
-- Prevent screenshots and screen recording on both platforms
-- No external dependencies — pure native implementation
-- iOS: Does **not** manipulate the window directly, so camera, keyboard, and SafeArea work correctly
-- Android: Uses the standard `FLAG_SECURE` flag
-- Simple `enable()` / `disable()` API
+- Enables or disables protection at runtime with a small async API.
+- Uses Android's standard `FLAG_SECURE` window flag.
+- Avoids replacing the iOS application window, preserving camera, keyboard, and
+  safe-area behavior in the supported example configuration.
+- Includes Dart, method-channel, Android, iOS, widget, and device integration tests.
 
-## Getting Started
-
-Add the dependency:
+## Installation
 
 ```yaml
 dependencies:
@@ -31,51 +47,65 @@ import 'package:screen_security/screen_security.dart';
 
 final screenSecurity = ScreenSecurity();
 
-// Enable screen protection
 await screenSecurity.enable();
 
-// Disable screen protection
+// Re-enable capture when the sensitive flow ends.
 await screenSecurity.disable();
 ```
 
-## Platform Requirements
+Always pair screen protection with normal application security: least-privilege data
+access, authentication, secure storage, redaction, short-lived sessions, and server-side
+authorization.
 
-| Platform | Minimum Version |
-|----------|----------------|
-| Android  | API 24 (minSdk) |
-| iOS      | 13.0           |
-| Flutter  | ≥ 3.3.0        |
+## Platform requirements
 
-## How It Works
+| Platform | Declared minimum |
+| --- | --- |
+| Android | API 24 |
+| iOS | 13.0 |
+| Flutter | 3.3.0 |
+| Dart | 2.18.0 |
 
-### Android
-Applies `FLAG_SECURE` to the current `Activity` window, which prevents the system from including app content in screenshots or screen recordings.
+The declared Flutter and Dart floors remain compatibility contracts for package
+consumers. Maintainer validation uses the Flutter version pinned in `.fvmrc`; releases
+must additionally verify the declared floors before claiming continued support.
 
-### iOS
-Creates a custom `UITextField` subclass with `isSecureTextEntry = true` and injects the `FlutterView` into its internal secure layer. This leverages iOS's built-in DRM rendering pipeline to blank out the content during screen capture — without touching the window hierarchy directly, preserving camera, keyboard, and SafeArea behavior.
+## Known issue: Android builds under a Thai locale
 
-## Known Issues
+Some Android Gradle Plugin versions can fail under a Thai (`th_TH`) system locale
+because a Buddhist-calendar year exceeds the MS-DOS timestamp range used while
+creating an archive.
 
-### Android build fails with Thai locale (Buddhist Calendar)
-
-If your system locale is set to Thai (`th_TH`), the Android Gradle Plugin (AGP) may fail with:
-
-```
-com.google.common.base.VerifyException (no error message)
-  at ...MsDosDateTimeUtils.packDate(...)
-```
-
-This is a **known AGP bug** where `BuddhistCalendar` returns year 2569 (instead of 2026), which exceeds the MS-DOS date format limit (1980–2107).
-
-**Fix:** Add the following JVM flags to your project's `android/gradle.properties`:
+Add the following flags to the consuming application's existing
+`android/gradle.properties` JVM arguments:
 
 ```properties
 org.gradle.jvmargs=... -Duser.language=en -Duser.country=US
 ```
 
-Append `-Duser.language=en -Duser.country=US` to your existing `org.gradle.jvmargs` line.
+Do not replace unrelated JVM arguments already present on the line.
+
+## Development
+
+Install [FVM](https://fvm.app/), then run:
+
+```bash
+fvm use
+fvm flutter pub get
+fvm dart format --output=none --set-exit-if-changed .
+fvm flutter analyze --fatal-infos
+fvm flutter test
+```
+
+Native and release gates are documented in [CONTRIBUTING.md](CONTRIBUTING.md) and
+[RELEASING.md](RELEASING.md).
+
+## Contributing and security
+
+- Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+- Report vulnerabilities privately as described in [SECURITY.md](SECURITY.md).
+- Project decisions are governed by [doc/ENGINEERING_POLICY.md](doc/ENGINEERING_POLICY.md).
 
 ## License
 
-MIT — see [LICENSE](https://github.com/Kidpech-code/screen_security/blob/main/LICENSE) for details.
-
+MIT — see [LICENSE](LICENSE).

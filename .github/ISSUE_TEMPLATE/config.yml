@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private security report
+    url: https://github.com/Kidpech-code/screen_security/security/advisories/new
+    about: Report suspected vulnerabilities privately. Do not open a public issue.
+  - name: Usage questions
+    url: https://github.com/Kidpech-code/screen_security/discussions
+    about: Ask integration and usage questions in Discussions.

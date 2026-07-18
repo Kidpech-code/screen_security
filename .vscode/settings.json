@@ -1,4 +1,7 @@
 {
+  // FVM pins the maintainer toolchain declared in .fvmrc.
+  "dart.flutterSdkPath": ".fvm/versions/3.44.6",
+
   // ── Kotlin Language Server ──────────────────────────────────────────────
   // The VS Code KLS cannot resolve Android SDK (android.*) or Flutter
   // embedding (io.flutter.*) JARs — those only exist inside the Android

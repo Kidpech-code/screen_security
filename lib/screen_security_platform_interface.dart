@@ -23,7 +23,7 @@ abstract class ScreenSecurityPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Enables screen security to prevent screenshots and screen recording.
+  /// Enables best-effort screenshot and screen-recording protection.
   Future<void> enableScreenSecurity() {
     throw UnimplementedError(
         'enableScreenSecurity() has not been implemented.');

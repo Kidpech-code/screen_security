@@ -9,18 +9,16 @@ public class KidpechScreenSecurityPlugin: NSObject, FlutterPlugin {
   private var secureTextField: SecureTextField?
   private var secureView: UIView?
   private var isSecurityEnabled = false
-  private var registrar: FlutterPluginRegistrar
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
       name: "kidpech_screen_security", binaryMessenger: registrar.messenger())
-    let instance = KidpechScreenSecurityPlugin(registrar: registrar)
+    let instance = KidpechScreenSecurityPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
     registrar.addApplicationDelegate(instance)
   }
 
-  init(registrar: FlutterPluginRegistrar) {
-    self.registrar = registrar
+  public override init() {
     super.init()
     setupObservers()
   }
