@@ -7,7 +7,11 @@ class ScreenSecurity {
   ///
   /// On Android, this sets `FLAG_SECURE` on the window.
   /// On iOS, this injects the Flutter view into a secure text field layer
-  /// to prevent screen capture without affecting camera functionality.
+  /// to reduce exposure through normal OS capture paths without replacing
+  /// the application window.
+  ///
+  /// This does not protect macOS iPhone Mirroring on the tested iOS 26.5.2
+  /// configuration. See the package README and security policy for boundaries.
   Future<void> enable() {
     return ScreenSecurityPlatform.instance.enableScreenSecurity();
   }

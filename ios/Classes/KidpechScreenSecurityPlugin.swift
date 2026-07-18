@@ -9,6 +9,7 @@ public class KidpechScreenSecurityPlugin: NSObject, FlutterPlugin {
   private var secureTextField: SecureTextField?
   private var secureView: UIView?
   private var isSecurityEnabled = false
+  private let windowProvider: () -> UIWindow?
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(
@@ -19,6 +20,13 @@ public class KidpechScreenSecurityPlugin: NSObject, FlutterPlugin {
   }
 
   public override init() {
+    self.windowProvider = KidpechScreenSecurityPlugin.resolveActiveWindow
+    super.init()
+    setupObservers()
+  }
+
+  init(windowProvider: @escaping () -> UIWindow?) {
+    self.windowProvider = windowProvider
     super.init()
     setupObservers()
   }
@@ -116,6 +124,10 @@ public class KidpechScreenSecurityPlugin: NSObject, FlutterPlugin {
   }
 
   private func activeWindow() -> UIWindow? {
+    return windowProvider()
+  }
+
+  private static func resolveActiveWindow() -> UIWindow? {
     // Flutter's AppDelegate always holds a window reference.
     // `delegate?.window` is `UIWindow??`; `?? nil` flattens it so a delegate
     // with a nil window falls through to the scene-based lookup below.

@@ -1,6 +1,6 @@
 name: screen_security
 description: "A lightweight Flutter plugin providing best-effort screenshot and screen-recording protection on iOS and Android."
-version: 1.1.0
+version: 1.1.1
 homepage: https://github.com/Kidpech-code/screen_security
 repository: https://github.com/Kidpech-code/screen_security
 issue_tracker: https://github.com/Kidpech-code/screen_security/issues
