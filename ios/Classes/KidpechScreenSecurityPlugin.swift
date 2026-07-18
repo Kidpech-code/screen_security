@@ -116,8 +116,10 @@ public class KidpechScreenSecurityPlugin: NSObject, FlutterPlugin {
   }
 
   private func activeWindow() -> UIWindow? {
-    // Flutter's AppDelegate always holds a window reference
-    if let delegate = UIApplication.shared.delegate, let window = delegate.window {
+    // Flutter's AppDelegate always holds a window reference.
+    // `delegate?.window` is `UIWindow??`; `?? nil` flattens it so a delegate
+    // with a nil window falls through to the scene-based lookup below.
+    if let window = UIApplication.shared.delegate?.window ?? nil {
       return window
     }
     // Modern fallback via UIWindowScene (avoids deprecated UIApplication.shared.windows)

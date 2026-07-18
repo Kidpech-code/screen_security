@@ -30,30 +30,41 @@ class RunnerTests: XCTestCase {
     )
   }
 
-  // MARK: - enable without window
+  // MARK: - enable/disable against the live host window
 
-  func testHandle_enableScreenSecurity_withoutWindow_returnsError() {
+  /// The test host app has a real UIWindow whose root view controller is a
+  /// FlutterViewController, so `enable` must resolve the window through the
+  /// scene-based lookup (the app delegate's `window` is nil under test) and
+  /// complete the real secure-view attachment. `disable` restores the view
+  /// hierarchy so later tests see the original state.
+  func testHandle_enableThenDisable_withHostWindow_succeeds() {
     let plugin = KidpechScreenSecurityPlugin()
 
-    let call = FlutterMethodCall(methodName: "enableScreenSecurity", arguments: nil)
-    var receivedResult: Any?
-
-    let expectation = self.expectation(description: "result called")
-    plugin.handle(call) { result in
-      receivedResult = result
-      expectation.fulfill()
+    var enableResult: Any? = "unset"
+    let enableExpectation = expectation(description: "enable result called")
+    plugin.handle(FlutterMethodCall(methodName: "enableScreenSecurity", arguments: nil)) {
+      result in
+      enableResult = result
+      enableExpectation.fulfill()
     }
-    waitForExpectations(timeout: 1)
-
-    // Without an active UIWindow the plugin should return a FlutterError.
-    XCTAssertTrue(
-      receivedResult is FlutterError,
-      "Expected FlutterError when no window is available, got \(String(describing: receivedResult))"
+    waitForExpectations(timeout: 10)
+    XCTAssertNil(
+      enableResult,
+      "Expected enable to succeed in a windowed host, got \(String(describing: enableResult))"
     )
 
-    if let error = receivedResult as? FlutterError {
-      XCTAssertEqual(error.code, "NO_WINDOW")
+    var disableResult: Any? = "unset"
+    let disableExpectation = expectation(description: "disable result called")
+    plugin.handle(FlutterMethodCall(methodName: "disableScreenSecurity", arguments: nil)) {
+      result in
+      disableResult = result
+      disableExpectation.fulfill()
     }
+    waitForExpectations(timeout: 10)
+    XCTAssertNil(
+      disableResult,
+      "Expected disable to restore the view hierarchy, got \(String(describing: disableResult))"
+    )
   }
 
   // MARK: - disable without window (idempotent guard)
