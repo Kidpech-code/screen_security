@@ -16,6 +16,11 @@ void main() {
     plugin = ScreenSecurity();
   });
 
+  // Policy: integration tests must leave protection disabled in cleanup.
+  tearDown(() async {
+    await plugin.disable();
+  });
+
   group('enable()', () {
     testWidgets('does not throw on the first call', (tester) async {
       await expectLater(plugin.enable(), completes);

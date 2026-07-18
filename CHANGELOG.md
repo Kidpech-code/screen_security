@@ -1,5 +1,13 @@
 ## Unreleased
 
+- Fixed iOS window resolution: a present app delegate with a nil `window` no
+  longer short-circuits the scene-based window lookup, so `enable()` works in
+  scene-based and add-to-app hosts instead of failing with `NO_WINDOW`.
+- Replaced the iOS `NO_WINDOW` unit test (which asserted the pre-fix lookup
+  behavior) with a real enable/disable cycle against the test host window.
+- Aligned CocoaPods podspec summary/description with the best-effort security
+  claims policy.
+- Integration tests now disable protection in `tearDown` per testing policy.
 - Added professional engineering, contribution, security, and release policies.
 - Added CI gates for Dart, Flutter, Android, iOS, and package validation.
 - Added trusted-publishing automation for version tags.

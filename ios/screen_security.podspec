@@ -5,11 +5,12 @@
 Pod::Spec.new do |s|
   s.name             = 'screen_security'
   s.version          = '1.1.0'
-  s.summary          = 'Prevent screen capturing and recording on iOS and Android.'
+  s.summary          = 'Best-effort screenshot and screen-recording protection for Flutter apps.'
   s.description      = <<-DESC
-A zero-dependency Flutter plugin that prevents screen capturing and screen recording.
-On Android it uses FLAG_SECURE. On iOS it injects the Flutter view into a secure
-UITextField layer, avoiding the common camera-black-screen conflict.
+A zero-dependency Flutter plugin providing best-effort screenshot and screen-recording
+protection. On Android it uses FLAG_SECURE. On iOS it hosts the Flutter view inside a
+secure UITextField layer, reducing exposure through normal OS capture paths while
+avoiding the common camera-black-screen conflict.
                        DESC
   s.homepage         = 'https://github.com/Kidpech-code/screen_security'
   s.license          = { :file => '../LICENSE' }
