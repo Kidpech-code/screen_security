@@ -1,5 +1,15 @@
 ## Unreleased
 
+- Updated the pinned GitHub Actions revisions used by CI and trusted
+  publishing.
+- Updated maintainer lint dependencies and removed the unused Cupertino icon
+  dependency from the example app.
+- Aligned the Android example validation toolchain on Gradle 8.14.5, Android
+  Gradle Plugin 8.11.1, and Kotlin 2.2.21; migrated the plugin compiler DSL,
+  updated Mockito to 5.23.0, and disabled the unnecessary Jetifier pass.
+- Excluded the macOS Finder custom-icon metadata file from source and package
+  archives.
+
 ## 1.1.1 - 2026-07-18
 
 - Fixed iOS window resolution: a present app delegate with a nil `window` no

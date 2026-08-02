@@ -4,6 +4,9 @@
 *.pyc
 *.swp
 .DS_Store
+# Finder stores custom folder icons in an `Icon` file with a control suffix.
+/Icon?
+!/Icon[ -~]
 .atom/
 .build/
 .buildlog/
