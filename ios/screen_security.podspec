@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'screen_security'
-  s.version          = '1.1.1'
+  s.version          = '1.1.2'
   s.summary          = 'Best-effort screenshot and screen-recording protection for Flutter apps.'
   s.description      = <<-DESC
 A Flutter plugin with no third-party native runtime dependencies, providing best-effort

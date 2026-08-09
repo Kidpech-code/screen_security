@@ -77,6 +77,49 @@ jobs:
       - name: Run Android plugin tests
         working-directory: example/android
         run: ./gradlew :screen_security:testDebugUnitTest
+      - name: Set up Flutter 3.3 consumer floor
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: 3.3.10
+          channel: stable
+          cache: true
+      - name: Build Flutter 3.3 Android consumer
+        shell: bash
+        run: |
+          consumer_dir="$(mktemp -d)"
+          trap 'rm -rf "$consumer_dir"' EXIT
+          flutter create \
+            --platforms=android \
+            --android-language kotlin \
+            --project-name screen_security_legacy_consumer \
+            "$consumer_dir"
+          cd "$consumer_dir"
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          pubspec = Path("pubspec.yaml")
+          pubspec_contents = pubspec.read_text()
+          pubspec.write_text(
+              pubspec_contents.replace(
+                  "dependencies:\n",
+                  "dependencies:\n  screen_security:\n"
+                  f"    path: {os.environ['GITHUB_WORKSPACE']}\n",
+                  1,
+              )
+          )
+
+          build_gradle = Path("android/app/build.gradle")
+          build_gradle_contents = build_gradle.read_text()
+          updated_build_gradle = build_gradle_contents.replace(
+              "minSdkVersion flutter.minSdkVersion", "minSdkVersion 24"
+          )
+          if updated_build_gradle == build_gradle_contents:
+              raise SystemExit("Could not set minSdkVersion 24 in the legacy consumer")
+          build_gradle.write_text(updated_build_gradle)
+          PY
+          flutter pub get
+          flutter build apk --debug
 
   ios-native:
     name: iOS native

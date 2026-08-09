@@ -46,7 +46,7 @@ See Apple's
 
 ```yaml
 dependencies:
-  screen_security: ^1.1.1
+  screen_security: ^1.1.2
 ```
 
 ## Usage
