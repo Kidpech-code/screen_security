@@ -111,11 +111,15 @@ jobs:
 
           build_gradle = Path("android/app/build.gradle")
           build_gradle_contents = build_gradle.read_text()
-          updated_build_gradle = build_gradle_contents.replace(
-              "minSdkVersion flutter.minSdkVersion", "minSdkVersion 24"
-          )
-          if updated_build_gradle == build_gradle_contents:
+          compile_sdk = "compileSdkVersion flutter.compileSdkVersion"
+          min_sdk = "minSdkVersion flutter.minSdkVersion"
+          if compile_sdk not in build_gradle_contents:
+              raise SystemExit("Could not set compileSdkVersion 34 in the legacy consumer")
+          if min_sdk not in build_gradle_contents:
               raise SystemExit("Could not set minSdkVersion 24 in the legacy consumer")
+          updated_build_gradle = build_gradle_contents.replace(
+              compile_sdk, "compileSdkVersion 34", 1
+          ).replace(min_sdk, "minSdkVersion 24", 1)
           build_gradle.write_text(updated_build_gradle)
           PY
           flutter pub get

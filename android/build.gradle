@@ -27,9 +27,9 @@ apply plugin: "kotlin-android"
 android {
     namespace = "dev.kidpech.screen_security"
 
-    // Keep this at the declared Flutter 3.3 consumer floor's supported SDK.
-    // Host apps may still compile against a newer Android SDK.
-    compileSdk = 33
+    // Flutter 3.3's Android toolchain can consume API 34, while current
+    // Flutter embedding dependencies require libraries to compile with 34+.
+    compileSdk = 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

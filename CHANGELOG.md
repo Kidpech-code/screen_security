@@ -1,9 +1,10 @@
 ## Unreleased
 
-## 1.1.2 - 2026-08-02
+## 1.1.2 - 2026-09-05
 
 - Restored Android build compatibility for apps using the declared Flutter
-  3.3.0 consumer floor.
+  3.3.0 consumer floor while retaining compile SDK 34 compatibility for current
+  AndroidX dependencies.
 - Updated pinned GitHub Actions revisions and Android/example development
   tooling.
 - Removed an unused example dependency and excluded Finder custom-icon metadata

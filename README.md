@@ -70,7 +70,7 @@ authorization.
 
 | Platform | Declared minimum |
 | --- | --- |
-| Android | API 24 |
+| Android | API 24 (compile SDK 34+) |
 | iOS | 13.0 |
 | Flutter | 3.3.0 |
 | Dart | 2.18.0 |
