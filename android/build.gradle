@@ -2,7 +2,7 @@ group = "dev.kidpech.screen_security"
 version = "1.0-SNAPSHOT"
 
 buildscript {
-    ext.kotlin_version = "2.4.10"
+    ext.kotlin_version = "2.4.20"
     repositories {
         google()
         mavenCentral()
@@ -47,7 +47,7 @@ android {
 
     dependencies {
         testImplementation("org.jetbrains.kotlin:kotlin-test")
-        testImplementation("org.mockito:mockito-core:5.23.0")
+        testImplementation("org.mockito:mockito-core:5.24.0")
     }
 
     testOptions {
