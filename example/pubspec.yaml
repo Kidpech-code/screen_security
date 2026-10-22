@@ -29,7 +29,8 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
-  intl: any
+  # Allow flutter_localizations to select its SDK-pinned version.
+  intl: ^0.20.2
 
 dev_dependencies:
   integration_test:

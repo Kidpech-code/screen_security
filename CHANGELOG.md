@@ -1,5 +1,14 @@
 ## Unreleased
 
+## 1.1.3 - 2026-10-22
+
+- Kept example localization dependencies compatible with the pinned Flutter
+  3.44.6 SDK instead of requiring an incompatible `intl` version.
+- Updated Kotlin to 2.4.20, Mockito to 5.24.0, the example Android Gradle
+  Plugin to 9.4.1, Gradle to 9.8.0, and the pinned Java setup action to 6.0.1.
+- No public API, minimum supported platform, privacy, or screen-capture
+  behavior changed.
+
 ## 1.1.2 - 2026-09-05
 
 - Restored Android build compatibility for apps using the declared Flutter
